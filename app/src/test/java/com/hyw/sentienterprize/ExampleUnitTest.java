@@ -1,4 +1,4 @@
-package com.jamestiotio.sentienterprize;
+package com.hyw.sentienterprize;
 
 import org.junit.Test;
 
