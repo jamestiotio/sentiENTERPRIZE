@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.posystem2">
+    package="com.hyw.sentienterprize">
 
     <application
         android:allowBackup="true"
@@ -19,23 +19,23 @@
         </activity>
         <activity
             android:name=".MenuActivity"
-            android:label="Menu"
+            android:label="MenuActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".POSActivity"
-            android:label="Point of Sales"
+            android:label="POSActivity"
             android:parentActivityName=".MenuActivity" />
         <activity
             android:name=".InventoryActivity"
-            android:label="Inventory"
+            android:label="MenuActivity"
             android:parentActivityName=".MenuActivity" />
         <activity
             android:name=".DemandActivity"
-            android:label="Demand Prediction"
+            android:label="MenuActivity"
             android:parentActivityName=".MenuActivity" />
         <activity
             android:name=".ProfileActivity"
-            android:label="Profile"
+            android:label="MenuActivity"
             android:parentActivityName=".MenuActivity" />
     </application>
 

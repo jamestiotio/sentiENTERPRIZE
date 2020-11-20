@@ -1,37 +1,69 @@
-package com.hyw.sentienterprize;
+package com.example.posystem2;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import static com.hyw.sentienterprize.TestData.formatPrice;
 
 public class ListViewAdapter extends BaseExpandableListAdapter {
-
     private List<String> lstGroups;
+    private List<String> timeList;
+    private List<String> imageList;
+    private List<String> dateList;
     private HashMap<String, List<Item>> lstItemsGroups;
     private Context context;
     private List<Double> subTotalValues;
 
-    // Constructor 1
-    public ListViewAdapter(Context context, TestData testData){
+    public ListViewAdapter(Context context, DayData dayData){
         this.context = context;
-        lstGroups = testData.getTransCode();
-        lstItemsGroups = testData.getTransList();
-        subTotalValues = testData.getSubTotalValues();
+        this.lstItemsGroups = dayData.getTransMap();
+
+        lstGroups = new ArrayList<>();
+        subTotalValues = new ArrayList<>();
+        timeList = new ArrayList<>();
+        imageList = new ArrayList<>();
+        dateList = new ArrayList<>();
+
+        dateList.add(dayData.getDate());
+
+        for (Transaction t : dayData.getTransList()){
+            lstGroups.add(t.getCode());
+            subTotalValues.add(t.getTransTotal());
+            timeList.add(t.getTime());
+            imageList.add(t.getTransType());
+        }
     }
 
-    // Constructor 2
-    public ListViewAdapter(Context context, List<String> groups, HashMap<String, List<Item>> itemsGroups) {
-        // initialize class variables
+    public ListViewAdapter(Context context, WeekData weekData, int nOfDays){
         this.context = context;
-        lstGroups = groups;
-        lstItemsGroups = itemsGroups;
+
+        lstItemsGroups = new HashMap<>();
+        lstGroups = new ArrayList<>();
+        subTotalValues = new ArrayList<>();
+        timeList = new ArrayList<>();
+        imageList = new ArrayList<>();
+        dateList = new ArrayList<>();
+
+        int count = 0;
+        while (count < nOfDays && count < weekData.getDayDataArrayList().size()){
+            DayData d = weekData.getDayDataArrayList().get(count);
+            lstItemsGroups.putAll(d.getTransMap());
+            for (Transaction t : d.getTransList()){
+                lstGroups.add(t.getCode());
+                subTotalValues.add(t.getTransTotal());
+                timeList.add(t.getTime());
+                imageList.add(t.getTransType());
+                dateList.add(d.getDate());
+            }
+            count++;
+        }
     }
 
     @Override
@@ -88,10 +120,26 @@ public class ListViewAdapter extends BaseExpandableListAdapter {
         TextView groupTitle = (TextView) convertView.findViewById(R.id.groupTitle);
         TextView count = (TextView) convertView.findViewById(R.id.itemCount);
         TextView subTotal = (TextView) convertView.findViewById(R.id.subTotal);
+        TextView time = (TextView) convertView.findViewById(R.id.time);
+        TextView date = (TextView) convertView.findViewById(R.id.date);
+        ImageView imageGroup = (ImageView) convertView.findViewById(R.id.imageGroup);
 
         groupTitle.setText((String)"Transaction code: " + getGroup(groupPosition));
         count.setText(String.valueOf(getChildrenCount(groupPosition)));
-        subTotal.setText(formatPrice(subTotalValues.get(groupPosition)));
+        subTotal.setText(String.format("%,.2f", subTotalValues.get(groupPosition)));
+        time.setText(timeList.get(groupPosition));
+
+        if (imageList.get(groupPosition) == "card"){
+            imageGroup.setImageResource(R.drawable.creditcard);
+        }else{
+            imageGroup.setImageResource(R.drawable.money);
+        }
+
+        if (dateList.size() == 1){
+            date.setText(dateList.get(0));
+        }else{
+            date.setText(dateList.get(groupPosition));
+        }
 
         return convertView;
     }

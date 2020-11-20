@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">sentiEnterprize</string>
+    <string name="app_name">sentiENTERPRIZE</string>
+    <string name="company_name">Jason Mohammed</string>
+    <string name="daily">Today</string>
+    <string name="weekly">Week</string>
+    <string name="total_sale">Total Sale</string>
+    <string name="companyTitle">30dp</string>
+    <string name="buttonTitle">15dp</string>
+    <string name="totalTitle">25dp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

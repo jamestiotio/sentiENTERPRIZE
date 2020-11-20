@@ -25,7 +25,7 @@
 
     <Button
         android:id="@+id/dayButton"
-        style="@style/buttonBlueWhite"
+        style="@style/buttonBlueBlack"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:layout_marginTop="10dp"
@@ -74,26 +74,24 @@
         app:layout_constraintLeft_toRightOf="@id/monthButton"
         app:layout_constraintRight_toRightOf="parent"
         />
-    <ExpandableListView
-        android:id="@+id/elvItems"
+
+    <FrameLayout
+        android:id="@+id/flFrag"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="8dp"
-        android:layout_marginTop="15dp"
+        android:layout_margin="0dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="15dp"
         app:layout_constraintTop_toBottomOf="@id/rangeButton"
         app:layout_constraintBottom_toTopOf="@id/totalLayout"
-        android:groupIndicator="@null"
-        android:childIndicator="@null"
-        android:divider="#FFF"
-        android:dividerHeight="5dp"
-        android:childDivider="#00000000"/>
+        />
 
     <LinearLayout
         android:id="@+id/totalLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:background="#FFF"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
@@ -117,7 +115,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/total"
+            android:id="@+id/TotalSales"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$105.98"
