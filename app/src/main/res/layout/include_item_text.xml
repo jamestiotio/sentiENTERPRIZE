@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/itemTitle"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textStyle="bold"
+        tools:text="My First Item" />
+
+    <include
+        android:id="@+id/itemAmountLayout"
+        layout="@layout/include_item_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/itemTitle" />
+
+    <include
+        android:id="@+id/itemUnitPriceLayout"
+        layout="@layout/include_item_unitprice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/itemAmountLayout" />
+
+    <TextView
+        android:id="@+id/itemBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/itemUnitPriceLayout"
+        tools:text="@string/lorem" />
+
+</LinearLayout>

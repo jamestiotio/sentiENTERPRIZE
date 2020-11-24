@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "800976060008",
+    "firebase_url": "https://sentienterprize.firebaseio.com",
+    "project_id": "sentienterprize",
+    "storage_bucket": "sentienterprize.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800976060008:android:57c586a4bc220fb8d945dd",
+        "android_client_info": {
+          "package_name": "com.jamestiotio.sentienterprize"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "800976060008-vd1nf0n23t07bqk6l5b60di2gos03bm4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdRQ8Nd7LPejkspuISBiOwqGt2dR7nMH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "800976060008-vd1nf0n23t07bqk6l5b60di2gos03bm4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
