@@ -41,17 +41,17 @@ public class MainActivity extends AppCompatActivity {
                 String password = editTextViewPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
-                    editTextViewEmail.setError("Email is required!");
+                    editTextViewEmail.setError(getText(R.string.error_email_required));
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    editTextViewPassword.setError("Password is required!");
+                    editTextViewPassword.setError(getText(R.string.error_password_required));
                     return;
                 }
 
                 if (password.length() < 8) {
-                    editTextViewPassword.setError("Password needs to be longer!");
+                    editTextViewPassword.setError(getText(R.string.error_password_longer));
                     return;
                 }
 
@@ -82,17 +82,17 @@ public class MainActivity extends AppCompatActivity {
                 String password = editTextViewPassword.getText().toString();
 
                 if (TextUtils.isEmpty(email)) {
-                    editTextViewEmail.setError("Email is required!");
+                    editTextViewEmail.setError(getText(R.string.error_email_required));
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    editTextViewPassword.setError("Password is required!");
+                    editTextViewPassword.setError(getText(R.string.error_password_required));
                     return;
                 }
 
                 if (password.length() < 8) {
-                    editTextViewPassword.setError("Password needs to be longer!");
+                    editTextViewPassword.setError(getText(R.string.error_password_longer));
                     return;
                 }
 
