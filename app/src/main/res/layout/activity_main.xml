@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/logo"
         android:layout_width="254dp"
-        android:layout_height="221dp"
+        android:layout_height="200dp"
         android:src="@drawable/ic_sentienterprizelogo" />
 
     <EditText
@@ -19,7 +19,7 @@
         style="@style/editTextGreyBlack"
         android:layout_width="265dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:hint="Email"
         android:lines="1"
@@ -36,7 +36,7 @@
         style="@style/editTextGreyBlack"
         android:layout_width="265dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:hint="Password"
         android:inputType="textPassword"
@@ -50,7 +50,7 @@
         style="@style/buttonOrangeBlack"
         android:layout_width="265dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Log In" />
 
     <Button
@@ -58,7 +58,7 @@
         style="@style/buttonOrangeBlack"
         android:layout_width="265dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Sign Up"
         android:textSize="14sp" />
 
