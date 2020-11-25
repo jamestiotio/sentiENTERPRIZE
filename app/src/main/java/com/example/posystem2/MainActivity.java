@@ -24,10 +24,20 @@ public class MainActivity extends AppCompatActivity {
     EditText editTextViewEmail, editTextViewPassword;
     private FirebaseAuth mAuth;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        if(user != null){
+            Toast.makeText(getApplicationContext(), "Welcome " + user.getEmail(), Toast.LENGTH_LONG).show();
+            Intent intentMainToOption = new Intent(MainActivity.this, MenuActivity.class);
+            startActivity(intentMainToOption);
+        }
 
         buttonLogIn = findViewById(R.id.buttonLogIn);
         buttonSignUp = findViewById(R.id.buttonSignUp);
@@ -55,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                mAuth = FirebaseAuth.getInstance();
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -96,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                mAuth = FirebaseAuth.getInstance();
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
