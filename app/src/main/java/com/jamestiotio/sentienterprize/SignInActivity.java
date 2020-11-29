@@ -26,10 +26,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
 
-    private EditText mEmailField;
-    private EditText mPasswordField;
-    private Button mSignInButton;
-    private Button mSignUpButton;
+    private Button buttonLogIn, buttonSignUp;
+    private EditText editTextViewEmail, editTextViewPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +37,21 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            onAuthSuccess(user);
+        }
+
         // Views
-        mEmailField = findViewById(R.id.fieldEmail);
-        mPasswordField = findViewById(R.id.fieldPassword);
-        mSignInButton = findViewById(R.id.buttonSignIn);
-        mSignUpButton = findViewById(R.id.buttonSignUp);
+        buttonLogIn = findViewById(R.id.buttonLogIn);
+        buttonSignUp = findViewById(R.id.buttonSignUp);
+        editTextViewEmail = findViewById(R.id.editTextViewEmail);
+        editTextViewPassword = findViewById(R.id.editTextViewPassword);
         setProgressBar(R.id.progressBar);
 
         // Click listeners
-        mSignInButton.setOnClickListener(this);
-        mSignUpButton.setOnClickListener(this);
+        buttonLogIn.setOnClickListener(this);
+        buttonSignUp.setOnClickListener(this);
     }
 
     @Override
@@ -61,15 +64,17 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void signIn() {
-        Log.d(TAG, "signIn");
-        if (!validateForm()) {
+    private void logIn() {
+        Log.d(TAG, "logIn");
+
+        String email = editTextViewEmail.getText().toString();
+        String password = editTextViewPassword.getText().toString();
+
+        if (!validateForm(email, password)) {
             return;
         }
 
         showProgressBar();
-        String email = mEmailField.getText().toString();
-        String password = mPasswordField.getText().toString();
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -81,8 +86,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         if (task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
                         } else {
-                            Toast.makeText(SignInActivity.this, "Sign In Failed",
-                                    Toast.LENGTH_SHORT).show();
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(getApplicationContext(), "Authentication Failed :( Contact admin for help", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -90,13 +95,15 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     private void signUp() {
         Log.d(TAG, "signUp");
-        if (!validateForm()) {
+
+        String email = editTextViewEmail.getText().toString();
+        String password = editTextViewPassword.getText().toString();
+
+        if (!validateForm(email, password)) {
             return;
         }
 
         showProgressBar();
-        String email = mEmailField.getText().toString();
-        String password = mPasswordField.getText().toString();
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -108,8 +115,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         if (task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
                         } else {
-                            Toast.makeText(SignInActivity.this, "Sign Up Failed",
-                                    Toast.LENGTH_SHORT).show();
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(getApplicationContext(), "Registration Failed :( Contact admin for help", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -121,8 +128,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         // Write new user
         writeNewUser(user.getUid(), username, user.getEmail());
 
-        // Go to MainActivity
-        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+        Toast.makeText(getApplicationContext(), "Welcome " + user.getEmail(), Toast.LENGTH_LONG).show();
+        Intent intentMainToOption = new Intent(SignInActivity.this, MenuActivity.class);
+        startActivity(intentMainToOption);
         finish();
     }
 
@@ -134,20 +142,31 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private boolean validateForm() {
+    private boolean validateForm(String email, String password) {
         boolean result = true;
-        if (TextUtils.isEmpty(mEmailField.getText().toString())) {
-            mEmailField.setError("Required");
+
+        if (TextUtils.isEmpty(email)) {
+            editTextViewEmail.setError(getText(R.string.error_email_required));
             result = false;
-        } else {
-            mEmailField.setError(null);
+        }
+        else {
+            editTextViewEmail.setError(null);
         }
 
-        if (TextUtils.isEmpty(mPasswordField.getText().toString())) {
-            mPasswordField.setError("Required");
+        if (TextUtils.isEmpty(password)) {
+            editTextViewPassword.setError(getText(R.string.error_password_required));
             result = false;
-        } else {
-            mPasswordField.setError(null);
+        }
+        else {
+            editTextViewPassword.setError(null);
+        }
+
+        if (password.length() < 8) {
+            editTextViewPassword.setError(getText(R.string.error_password_longer));
+            result = false;
+        }
+        else {
+            editTextViewPassword.setError(null);
         }
 
         return result;
@@ -157,15 +176,15 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private void writeNewUser(String userId, String name, String email) {
         User user = new User(name, email);
 
-        mDatabase.child("RealApparel").child("inventory").child("users").child(userId).setValue(user);
+        mDatabase.child("RealApparel").child("users").child(userId).setValue(user);
     }
     // [END basic_write]
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.buttonSignIn) {
-            signIn();
+        if (i == R.id.buttonLogIn) {
+            logIn();
         } else if (i == R.id.buttonSignUp) {
             signUp();
         }

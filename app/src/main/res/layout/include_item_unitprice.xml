@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:text="Unit Price:"
-        tools:text="Unit Price:" />
+        tools:text="Unit Price:"
+        android:fontFamily="@font/montserrat_bold" />
 
     <TextView
         android:id="@+id/itemUnitPrice"
@@ -22,6 +23,7 @@
         android:layout_marginLeft="5dp"
         android:textStyle="bold"
         android:gravity="center_vertical"
-        tools:text="9.95" />
+        tools:text="9.95"
+        android:fontFamily="@font/montserrat_bold" />
 
 </LinearLayout>

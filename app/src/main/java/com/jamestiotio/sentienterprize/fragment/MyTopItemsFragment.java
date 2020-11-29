@@ -12,7 +12,7 @@ public class MyTopItemsFragment extends ItemListFragment {
         // [START my_top_items_query]
         // My top items by number of stars
         String myUserId = getUid();
-        Query myTopItemsQuery = databaseReference.child("RealApparel").child("user-items").child(myUserId)
+        Query myTopItemsQuery = databaseReference.child("RealApparel").child("inventory").child("user-items").child(myUserId)
                 .orderByChild("starCount");
         // [END my_top_items_query]
 

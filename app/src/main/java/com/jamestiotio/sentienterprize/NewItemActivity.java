@@ -30,7 +30,7 @@ public class NewItemActivity extends BaseActivity {
     private DatabaseReference mDatabase;
     // [END declare_database_ref]
 
-    private EditText mTitleField;
+    private EditText mNameField;
     private EditText mBodyField;
     private EditText mAmountField;
     private EditText mUnitPriceField;
@@ -45,7 +45,7 @@ public class NewItemActivity extends BaseActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
 
-        mTitleField = findViewById(R.id.fieldTitle);
+        mNameField = findViewById(R.id.fieldName);
         mBodyField = findViewById(R.id.fieldBody);
         mAmountField = findViewById(R.id.fieldAmount);
         mUnitPriceField = findViewById(R.id.fieldUnitPrice);
@@ -60,7 +60,7 @@ public class NewItemActivity extends BaseActivity {
     }
 
     private void submitItem() {
-        final String title = mTitleField.getText().toString();
+        final String name = mNameField.getText().toString();
         final String body = mBodyField.getText().toString();
         final Integer amount;
         final BigDecimal unitPrice;
@@ -81,9 +81,9 @@ public class NewItemActivity extends BaseActivity {
             return;
         }
 
-        // Title is required
-        if (TextUtils.isEmpty(title)) {
-            mTitleField.setError(REQUIRED);
+        // Name is required
+        if (TextUtils.isEmpty(name)) {
+            mNameField.setError(REQUIRED);
             return;
         }
 
@@ -99,7 +99,7 @@ public class NewItemActivity extends BaseActivity {
 
         // [START single_value_read]
         final String userId = getUid();
-        mDatabase.child("RealApparel").child("inventory").child("users").child(userId).addListenerForSingleValueEvent(
+        mDatabase.child("RealApparel").child("users").child(userId).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,8 +114,7 @@ public class NewItemActivity extends BaseActivity {
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            // Write new item
-                            writeNewItem(userId, user.username, title, body, amount, unitPrice);
+                            checkForUniqueItem(userId, user.username, name, body, amount, unitPrice);
                         }
 
                         // Finish this Activity, back to the stream
@@ -136,7 +135,7 @@ public class NewItemActivity extends BaseActivity {
     }
 
     private void setEditingEnabled(boolean enabled) {
-        mTitleField.setEnabled(enabled);
+        mNameField.setEnabled(enabled);
         mBodyField.setEnabled(enabled);
         if (enabled) {
             mSubmitButton.show();
@@ -145,12 +144,44 @@ public class NewItemActivity extends BaseActivity {
         }
     }
 
+    private void checkForUniqueItem(String userId, String username, String name, String body, Integer amount, BigDecimal unitPrice) {
+        mDatabase.child("RealApparel").child("inventory").child("items").child(name).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (!dataSnapshot.exists()) {
+                            // Write new item
+                            writeNewItem(userId, username, name, body, amount, unitPrice);
+                        } else {
+                            // Duplicate item name, error out
+                            Log.e(TAG, name + " is a duplicate item name.");
+                            Toast.makeText(NewItemActivity.this,
+                                    "Error: duplicate item name.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // Finish this Activity, back to the stream
+                        setEditingEnabled(true);
+                        finish();
+                        // [END_EXCLUDE]
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getItemName:onCancelled", databaseError.toException());
+                        // [START_EXCLUDE]
+                        setEditingEnabled(true);
+                        // [END_EXCLUDE]
+                    }
+                });
+    }
+
     // [START write_fan_out]
-    private void writeNewItem(String userId, String username, String title, String body, Integer amount, BigDecimal unitPrice) {
+    private void writeNewItem(String userId, String username, String name, String body, Integer amount, BigDecimal unitPrice) {
         // Create new item at /user-items/$userid/$itemid and at
         // /items/$itemid simultaneously
-        String key = mDatabase.child("RealApparel").child("inventory").child("items").push().getKey();
-        Item item = new Item(userId, username, title, body, amount, unitPrice);
+        String key = name;
+        Item item = new Item(userId, username, name, body, amount, unitPrice);
         Map<String, Object> itemValues = item.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();

@@ -2,17 +2,22 @@ package com.jamestiotio.sentienterprize;
 
 import android.content.Context;
 import android.os.Bundle;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.jamestiotio.sentienterprize.models.Comment;
 import com.jamestiotio.sentienterprize.models.Item;
 import com.jamestiotio.sentienterprize.models.User;
+import com.jamestiotio.sentienterprize.utils.CheckNetworkAvailability;
+import com.jamestiotio.sentienterprize.utils.DownloadUserProfilePhoto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +46,8 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
     private CommentAdapter mAdapter;
 
     private TextView mAuthorView;
-    private TextView mTitleView;
+    private ImageView mAuthorPhotoView;
+    private TextView mNameView;
     private TextView mBodyView;
     private TextView mAmountView;
     private TextView mUnitPriceView;
@@ -66,7 +74,8 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
         // Initialize Views
         mAuthorView = findViewById(R.id.itemAuthor);
-        mTitleView = findViewById(R.id.itemTitle);
+        mAuthorPhotoView = findViewById(R.id.itemAuthorPhoto);
+        mNameView = findViewById(R.id.itemName);
         mBodyView = findViewById(R.id.itemBody);
         mAmountView = findViewById(R.id.itemAmount);
         mUnitPriceView = findViewById(R.id.itemUnitPrice);
@@ -89,9 +98,24 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // Get Item object and use the values to update the UI
                 Item item = dataSnapshot.getValue(Item.class);
+
+                // If there is a network connection available, get user email and download user's profile photo from Gravatar
+                if (CheckNetworkAvailability.isNetworkAvailable(ItemDetailActivity.this)) {
+                    String email;
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        email = user.getEmail();
+                    }
+                    else {
+                        email = "";
+                    }
+                    DownloadUserProfilePhoto downloadUserProfilePhoto = new DownloadUserProfilePhoto(ItemDetailActivity.this, mAuthorPhotoView);
+                    downloadUserProfilePhoto.execute(email);
+                }
+
                 // [START_EXCLUDE]
                 mAuthorView.setText(item.author);
-                mTitleView.setText(item.title);
+                mNameView.setText(item.name);
                 mBodyView.setText(item.body);
                 mAmountView.setText(String.valueOf(item.amount));
                 mUnitPriceView.setText(String.valueOf(item.unitPrice));
@@ -142,7 +166,7 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
 
     private void itemComment() {
         final String uid = getUid();
-        FirebaseDatabase.getInstance().getReference().child("RealApparel").child("inventory").child("users").child(uid)
+        FirebaseDatabase.getInstance().getReference().child("RealApparel").child("users").child(uid)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

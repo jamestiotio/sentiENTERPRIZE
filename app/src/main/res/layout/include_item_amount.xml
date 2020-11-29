@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:text="Amount:"
-        tools:text="Amount:" />
+        tools:text="Amount:"
+        android:fontFamily="@font/montserrat_bold" />
 
     <TextView
         android:id="@+id/itemAmount"
@@ -22,6 +23,7 @@
         android:layout_marginLeft="5dp"
         android:textStyle="bold"
         android:gravity="center_vertical"
-        tools:text="7" />
+        tools:text="7"
+        android:fontFamily="@font/montserrat_bold" />
 
 </LinearLayout>

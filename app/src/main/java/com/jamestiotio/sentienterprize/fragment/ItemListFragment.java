@@ -50,7 +50,7 @@ public abstract class ItemListFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END create_database_reference]
 
-        mRecycler = rootView.findViewById(R.id.messagesList);
+        mRecycler = rootView.findViewById(R.id.itemsList);
         mRecycler.setHasFixedSize(true);
 
         return rootView;

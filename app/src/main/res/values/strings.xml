@@ -16,4 +16,7 @@
     <string name="heading_recent">Recent</string>
     <string name="heading_my_items">My Items</string>
     <string name="heading_my_top_items">My Top Items</string>
+    <string name="error_email_required">Email is required!</string>
+    <string name="error_password_required">Password is required!</string>
+    <string name="error_password_longer">Password needs to be longer!</string>
 </resources>

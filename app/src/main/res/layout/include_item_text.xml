@@ -6,14 +6,15 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/itemTitle"
+        android:id="@+id/itemName"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
         android:textStyle="bold"
-        tools:text="My First Item" />
+        tools:text="My First Item"
+        android:fontFamily="@font/montserrat" />
 
     <include
         android:id="@+id/itemAmountLayout"
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="5dp"
-        android:layout_below="@+id/itemTitle" />
+        android:layout_below="@+id/itemName" />
 
     <include
         android:id="@+id/itemUnitPriceLayout"

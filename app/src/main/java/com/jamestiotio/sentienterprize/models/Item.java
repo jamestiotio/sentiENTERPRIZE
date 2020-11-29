@@ -13,7 +13,7 @@ public class Item {
 
     public String uid;
     public String author;
-    public String title;
+    public String name;
     public String body;
     public Integer amount;
     public Double unitPrice;
@@ -24,10 +24,10 @@ public class Item {
         // Default constructor required for calls to DataSnapshot.getValue(Item.class)
     }
 
-    public Item(String uid, String author, String title, String body, Integer amount, BigDecimal unitPrice) {
+    public Item(String uid, String author, String name, String body, Integer amount, BigDecimal unitPrice) {
         this.uid = uid;
         this.author = author;
-        this.title = title;
+        this.name = name;
         this.body = body;
         this.amount = amount;
         this.unitPrice = unitPrice.doubleValue(); // Convert BigDecimal to Double since Firebase does not support serialization of BigDecimal objects
@@ -39,7 +39,7 @@ public class Item {
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", uid);
         result.put("author", author);
-        result.put("title", title);
+        result.put("name", name);
         result.put("body", body);
         result.put("amount", amount);
         result.put("unitPrice", unitPrice);

@@ -16,9 +16,9 @@ import com.jamestiotio.sentienterprize.fragment.MyItemsFragment;
 import com.jamestiotio.sentienterprize.fragment.MyTopItemsFragment;
 import com.jamestiotio.sentienterprize.fragment.RecentItemsFragment;
 
-public class  MainActivity extends BaseActivity {
+public class InventoryActivity extends BaseActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "InventoryActivity";
 
     private FragmentPagerAdapter mPagerAdapter;
     private ViewPager mViewPager;
@@ -26,7 +26,7 @@ public class  MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_inventory);
 
         // Create the adapter that will return a fragment for each section
         mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(),
@@ -64,7 +64,7 @@ public class  MainActivity extends BaseActivity {
         findViewById(R.id.fabNewItem).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NewItemActivity.class));
+                startActivity(new Intent(InventoryActivity.this, NewItemActivity.class));
             }
         });
     }

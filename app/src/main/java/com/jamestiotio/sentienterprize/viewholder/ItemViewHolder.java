@@ -1,17 +1,24 @@
 package com.jamestiotio.sentienterprize.viewholder;
 
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.jamestiotio.sentienterprize.R;
 import com.jamestiotio.sentienterprize.models.Item;
+import com.jamestiotio.sentienterprize.utils.CheckNetworkAvailability;
+import com.jamestiotio.sentienterprize.utils.DownloadUserProfilePhoto;
 
 public class ItemViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView titleView;
+    public View itemView;
+    public TextView nameView;
     public TextView authorView;
+    public ImageView authorPhotoView;
     public ImageView starView;
     public TextView numStarsView;
     public TextView bodyView;
@@ -21,8 +28,10 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
     public ItemViewHolder(View itemView) {
         super(itemView);
 
-        titleView = itemView.findViewById(R.id.itemTitle);
+        this.itemView = itemView;
+        nameView = itemView.findViewById(R.id.itemName);
         authorView = itemView.findViewById(R.id.itemAuthor);
+        authorPhotoView = itemView.findViewById(R.id.itemAuthorPhoto);
         starView = itemView.findViewById(R.id.star);
         numStarsView = itemView.findViewById(R.id.itemNumStars);
         bodyView = itemView.findViewById(R.id.itemBody);
@@ -31,7 +40,21 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindToItem(Item item, View.OnClickListener starClickListener) {
-        titleView.setText(item.title);
+        // If there is a network connection available, get user email and download user's profile photo from Gravatar
+        if (CheckNetworkAvailability.isNetworkAvailable(this.itemView.getContext())) {
+            String email;
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                email = user.getEmail();
+            }
+            else {
+                email = "";
+            }
+            DownloadUserProfilePhoto downloadUserProfilePhoto = new DownloadUserProfilePhoto(this.itemView.getContext(), authorPhotoView);
+            downloadUserProfilePhoto.execute(email);
+        }
+
+        nameView.setText(item.name);
         authorView.setText(item.author);
         numStarsView.setText(String.valueOf(item.starCount));
         bodyView.setText(item.body);

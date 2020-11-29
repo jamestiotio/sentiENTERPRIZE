@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#EC8B5E</color>
-    <color name="colorPrimaryDark">#EC8B5E</color>
+    <color name="colorPrimaryDark">#141A46</color>
     <color name="colorAccent">#ADC2FA</color>
 
     <!-- Light Theme Colors -->
@@ -12,7 +12,7 @@
     <color name="colorTextTwo">#FFFFFF</color>
     <color name="colorBackgroundOne">#ADC2FA</color>
     <color name="colorBackgroundTwo">#EBEBEC</color>
-
+ic
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="icons">#212121</color>
