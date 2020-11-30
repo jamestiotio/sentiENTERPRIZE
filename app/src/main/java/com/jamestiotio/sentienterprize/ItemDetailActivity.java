@@ -1,9 +1,11 @@
 package com.jamestiotio.sentienterprize;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -182,16 +184,24 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     private void itemEdit() {
-
+        
     }
 
     private void itemDelete() {
-        mItemReference.removeValue();
-        Toast.makeText(ItemDetailActivity.this, "Item deleted. Returning to main inventory page...",
-                Toast.LENGTH_LONG).show();
-        Intent intentGoToInventory = new Intent(ItemDetailActivity.this, InventoryActivity.class);
-        startActivity(intentGoToInventory);
-        finish();
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Item")
+                .setMessage("Do you really want to delete this item?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        mItemReference.removeValue();
+                        Toast.makeText(ItemDetailActivity.this, "Item deleted. Returning to main inventory page...",
+                                Toast.LENGTH_LONG).show();
+                        Intent intentGoToInventory = new Intent(ItemDetailActivity.this, InventoryActivity.class);
+                        startActivity(intentGoToInventory);
+                        finish();
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
     }
 
     private void itemComment() {
