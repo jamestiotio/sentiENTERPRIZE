@@ -26,11 +26,41 @@
         android:layout_marginTop="10dp" />
 
     <LinearLayout
+        android:id="@+id/editAndDeleteButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemTextLayout"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:weightSum="1.0"
+        android:gravity="center_horizontal|center_vertical">
+
+        <Button
+            android:id="@+id/buttonEdit"
+            style="@style/buttonBlueBlack"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:text="Edit Item"
+            android:textSize="14sp"
+            android:layout_marginRight="15dp" />
+
+        <Button
+            android:id="@+id/buttonDelete"
+            style="@style/buttonBlueBlack"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:text="Delete Item"
+            android:textSize="14sp"
+            android:layout_marginLeft="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/commentForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/itemTextLayout"
+        android:layout_below="@+id/editAndDeleteButtons"
         android:layout_marginTop="20dp"
         android:weightSum="1.0">
 

@@ -1,6 +1,7 @@
 package com.jamestiotio.sentienterprize;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.google.android.material.button.MaterialButton;
+
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,6 +57,8 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
     private EditText mCommentField;
     private MaterialButton mCommentButton;
     private RecyclerView mCommentsRecycler;
+    private Button editButton;
+    private Button deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +87,12 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
         mCommentField = findViewById(R.id.fieldCommentText);
         mCommentButton = findViewById(R.id.buttonItemComment);
         mCommentsRecycler = findViewById(R.id.recyclerItemComments);
+
+        editButton = findViewById(R.id.buttonEdit);
+        deleteButton = findViewById(R.id.buttonDelete);
+
+        editButton.setOnClickListener(this);
+        deleteButton.setOnClickListener(this);
 
         mCommentButton.setOnClickListener(this);
         mCommentsRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -162,6 +173,25 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
         if (i == R.id.buttonItemComment) {
             itemComment();
         }
+        else if (i == R.id.buttonEdit) {
+            itemEdit();
+        }
+        else if (i == R.id.buttonDelete) {
+            itemDelete();
+        }
+    }
+
+    private void itemEdit() {
+
+    }
+
+    private void itemDelete() {
+        mItemReference.removeValue();
+        Toast.makeText(ItemDetailActivity.this, "Item deleted. Returning to main inventory page...",
+                Toast.LENGTH_LONG).show();
+        Intent intentGoToInventory = new Intent(ItemDetailActivity.this, InventoryActivity.class);
+        startActivity(intentGoToInventory);
+        finish();
     }
 
     private void itemComment() {
