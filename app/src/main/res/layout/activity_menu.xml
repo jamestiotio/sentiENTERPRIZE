@@ -27,7 +27,7 @@
         app:layout_constraintBottom_toTopOf="@id/buttonPOS"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="RealApparel" />
+        android:text="Real Apparel" />
 
     <Button
         android:id="@+id/buttonPOS"
