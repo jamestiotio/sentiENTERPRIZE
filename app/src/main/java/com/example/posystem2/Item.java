@@ -1,5 +1,7 @@
 package com.example.posystem2;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Item implements Serializable {
@@ -39,5 +41,11 @@ public class Item implements Serializable {
 
     public String getStringAmount(){
         return String.format("%,.2f", getUnitPrice());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name + " " + quantity + " " + unitPrice;
     }
 }

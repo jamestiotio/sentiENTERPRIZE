@@ -8,8 +8,11 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import android.widget.ExpandableListView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class DayFragment extends Fragment {
-    DayData dayData;
+    ArrayList<TransactionSingle> requestedData;
     ExpandableListView transactions;
 
     @Override
@@ -25,14 +28,12 @@ public class DayFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         transactions = view.findViewById(R.id.elvItems);
 
-        // Create fake data OR receive fake data
-        dayData = new DayData(10);
         if (getArguments() != null){
-            dayData = (DayData) getArguments().getSerializable("data");
+            requestedData = (ArrayList<TransactionSingle>) getArguments().getSerializable("data");
         }
 
         // Create an adapter (BaseExpandableListAdapter) with the data above
-        ListViewAdapter listViewAdapter = new ListViewAdapter(getActivity(), dayData);
+        ListViewAdapter listViewAdapter = new ListViewAdapter(getActivity(), requestedData);
         // defines the ExpandableListView adapter
         transactions.setAdapter(listViewAdapter);
     }

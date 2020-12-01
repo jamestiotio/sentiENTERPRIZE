@@ -1,18 +1,29 @@
 package com.example.posystem2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class POSActivity extends AppCompatActivity{
+    private static DatabaseReference db;
+    private ArrayList<TransactionSingle> transList = new ArrayList<>();
+
     // Instantiate widgets
     TextView totalSales;
     Button dayButton;
@@ -25,92 +36,24 @@ public class POSActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pos);
 
-        // Find widgets by IDs
-        totalSales = findViewById(R.id.TotalSales);
-        dayButton = findViewById(R.id.dayButton);
-        weekButton = findViewById(R.id.weekButton);
-        monthButton = findViewById(R.id.monthButton);
-        rangeButton = findViewById(R.id.rangeButton);
+        //
+        db = FirebaseDatabase.getInstance().getReference().child("RealApparel").child("transactions");
 
-        // Array of 4 action buttons
-        final ArrayList<Button> buttons = new ArrayList<>();
-        buttons.add(dayButton);
-        buttons.add(weekButton);
-        buttons.add(monthButton);
-        buttons.add(rangeButton);
-
-
-        // Create data
-        final WeekData weekData = new WeekData(10);
-
-        // Create fragments and data-passing bundles
-        Bundle bundleDay = new Bundle();
-        bundleDay.putSerializable("data", weekData.getLatestDay());
-        final Fragment dayFrag = new DayFragment();
-        dayFrag.setArguments(bundleDay);
-
-        Bundle bundleWeek = new Bundle();
-        bundleWeek.putSerializable("data", weekData);
-        final Fragment weekFrag = new WeekFragment();
-        weekFrag.setArguments(bundleWeek);
-
-        final Fragment monthFrag = new MonthFragment();
-        monthFrag.setArguments(bundleWeek);
-
-        System.out.println(weekData.getDayDataArrayList());
-
-        // Set initial look
-        openFragment(dayFrag);
-        totalSales.setText(String.format("%,.2f", weekData.getLatestDay().getDayTotal()));
-
-        dayButton.setOnClickListener(new View.OnClickListener() {
+        // Read from the database
+        db.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                openFragment(dayFrag);
-                double totalDaySales = weekData.getLatestDay().getDayTotal();
-                totalSales.setText(String.format("%,.2f", totalDaySales));
-
-                // Set button
-                int[] buttonOn = {1, 0, 0, 0};
-                setButtons(buttons, buttonOn);
-            }
-        });
-
-        weekButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFragment(weekFrag);
-                double totalWeekSales = 0;
-                int count = 0;
-
-                while (count < 7 && count < weekData.getDayDataArrayList().size()){
-                    totalWeekSales += weekData.getDayDataArrayList().get(count).getDayTotal();
-                    count++;
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    transList.add(new TransactionSingle(snapshot));
                 }
-                totalSales.setText(String.format("%,.2f", totalWeekSales));
-
-                // Set button
-                int[] buttonOn = {0, 1, 0, 0};
-                setButtons(buttons, buttonOn);
+                updateListView(transList);
             }
-        });
-
-        monthButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                openFragment(monthFrag);
-                double totalMonthSales = 0;
-                int count = 0;
-
-                while (count < 30 && count < weekData.getDayDataArrayList().size()){
-                    totalMonthSales += weekData.getDayDataArrayList().get(count).getDayTotal();
-                    count++;
-                }
-                totalSales.setText(String.format("%,.2f", totalMonthSales));
-
-                // Set button
-                int[] buttonOn = {0, 0, 1, 0};
-                setButtons(buttons, buttonOn);
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w("DB Error", "Failed to read value.", error.toException());
             }
         });
     }
@@ -129,5 +72,111 @@ public class POSActivity extends AppCompatActivity{
                 buttons.get(i).setTextColor(Color.parseColor("#000000"));
             }
         }
+    }
+
+    private void updateListView(final ArrayList<TransactionSingle> transList){
+        TransactionClassification classified = new TransactionClassification(transList);
+        final ArrayList<TransactionSingle> dayList = classified.getDayList();
+        final ArrayList<TransactionSingle> weekList = classified.getWeekList();
+        final ArrayList<TransactionSingle> monthList = classified.getMonthList();
+
+        // Find widgets by IDs
+        totalSales = findViewById(R.id.TotalSales);
+        dayButton = findViewById(R.id.dayButton);
+        weekButton = findViewById(R.id.weekButton);
+        monthButton = findViewById(R.id.monthButton);
+        rangeButton = findViewById(R.id.rangeButton);
+
+        // Array of 4 action buttons
+        final ArrayList<Button> buttons = new ArrayList<>();
+        buttons.add(dayButton);
+        buttons.add(weekButton);
+        buttons.add(monthButton);
+        buttons.add(rangeButton);
+
+        // data pipelining
+        Bundle bundleDay = new Bundle();
+        bundleDay.putSerializable("data", dayList);
+        Bundle bundleWeek = new Bundle();
+        bundleWeek.putSerializable("data", weekList);
+        Bundle bundleMonth = new Bundle();
+        bundleMonth.putSerializable("data", monthList);
+        Bundle bundleData = new Bundle();
+        bundleData.putSerializable("data", transList);
+
+        // create fragments
+        final Fragment dayFrag = new DayFragment();
+        dayFrag.setArguments(bundleDay);
+
+        final Fragment weekFrag = new WeekFragment();
+        weekFrag.setArguments(bundleWeek);
+
+        final Fragment monthFrag = new MonthFragment();
+        monthFrag.setArguments(bundleMonth);
+
+        final Fragment rangeFrag = new RangeFragment();
+        rangeFrag.setArguments(bundleData);
+
+        // Set initial look
+        openFragment(dayFrag);
+        totalSales.setText(getTotal(dayList));
+
+        dayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(dayFrag);
+                totalSales.setText(getTotal(dayList));
+
+                // Set button
+                int[] buttonOn = {1, 0, 0, 0};
+                setButtons(buttons, buttonOn);
+            }
+        });
+
+        weekButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(weekFrag);
+                totalSales.setText(getTotal(weekList));
+
+                // Set button
+                int[] buttonOn = {0, 1, 0, 0};
+                setButtons(buttons, buttonOn);
+            }
+        });
+
+        monthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(monthFrag);
+                totalSales.setText(getTotal(monthList));
+
+                // Set button
+                int[] buttonOn = {0, 0, 1, 0};
+                setButtons(buttons, buttonOn);
+            }
+        });
+
+        rangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFragment(rangeFrag);
+                totalSales.setText(getTotal(transList));
+
+                // Set button
+                int[] buttonOn = {0, 0, 0, 1};
+                setButtons(buttons, buttonOn);
+            }
+        });
+    }
+
+    public String getTotal(ArrayList<TransactionSingle> l){
+        double total = 0;
+
+        for (TransactionSingle t : l){
+            total += t.getTransTotal();
+        }
+
+        return String.format("%,.2f", total);
     }
 }

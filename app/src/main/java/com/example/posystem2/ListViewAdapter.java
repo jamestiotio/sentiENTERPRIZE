@@ -14,55 +14,30 @@ import java.util.List;
 
 public class ListViewAdapter extends BaseExpandableListAdapter {
     private List<String> lstGroups;
-    private List<String> timeList;
+    private List<String> datetimeList;
     private List<String> imageList;
-    private List<String> dateList;
     private HashMap<String, List<Item>> lstItemsGroups;
     private Context context;
     private List<Double> subTotalValues;
 
-    public ListViewAdapter(Context context, DayData dayData){
-        this.context = context;
-        this.lstItemsGroups = dayData.getTransMap();
-
-        lstGroups = new ArrayList<>();
-        subTotalValues = new ArrayList<>();
-        timeList = new ArrayList<>();
-        imageList = new ArrayList<>();
-        dateList = new ArrayList<>();
-
-        dateList.add(dayData.getDate());
-
-        for (Transaction t : dayData.getTransList()){
-            lstGroups.add(t.getCode());
-            subTotalValues.add(t.getTransTotal());
-            timeList.add(t.getTime());
-            imageList.add(t.getTransType());
-        }
-    }
-
-    public ListViewAdapter(Context context, WeekData weekData, int nOfDays){
+    public ListViewAdapter(Context context, ArrayList<TransactionSingle> transList){
         this.context = context;
 
+        // initialise attributes
         lstItemsGroups = new HashMap<>();
         lstGroups = new ArrayList<>();
         subTotalValues = new ArrayList<>();
-        timeList = new ArrayList<>();
+        datetimeList = new ArrayList<>();
         imageList = new ArrayList<>();
-        dateList = new ArrayList<>();
 
-        int count = 0;
-        while (count < nOfDays && count < weekData.getDayDataArrayList().size()){
-            DayData d = weekData.getDayDataArrayList().get(count);
-            lstItemsGroups.putAll(d.getTransMap());
-            for (Transaction t : d.getTransList()){
-                lstGroups.add(t.getCode());
-                subTotalValues.add(t.getTransTotal());
-                timeList.add(t.getTime());
-                imageList.add(t.getTransType());
-                dateList.add(d.getDate());
-            }
-            count++;
+        // get attributes
+        for (TransactionSingle t : transList){
+            lstGroups.add(t.getCode());
+            subTotalValues.add(t.getTransTotal());
+            datetimeList.add(t.getDatetime());
+            imageList.add(t.getTransType());
+
+            lstItemsGroups.put(t.getCode(), t.getItemList());
         }
     }
 
@@ -120,25 +95,18 @@ public class ListViewAdapter extends BaseExpandableListAdapter {
         TextView groupTitle = (TextView) convertView.findViewById(R.id.groupTitle);
         TextView count = (TextView) convertView.findViewById(R.id.itemCount);
         TextView subTotal = (TextView) convertView.findViewById(R.id.subTotal);
-        TextView time = (TextView) convertView.findViewById(R.id.time);
-        TextView date = (TextView) convertView.findViewById(R.id.date);
+        TextView datetime = (TextView) convertView.findViewById(R.id.datetime);
         ImageView imageGroup = (ImageView) convertView.findViewById(R.id.imageGroup);
 
         groupTitle.setText((String)"Transaction code: " + getGroup(groupPosition));
         count.setText(String.valueOf(getChildrenCount(groupPosition)));
         subTotal.setText(String.format("%,.2f", subTotalValues.get(groupPosition)));
-        time.setText(timeList.get(groupPosition));
+        datetime.setText(datetimeList.get(groupPosition));
 
         if (imageList.get(groupPosition) == "card"){
             imageGroup.setImageResource(R.drawable.creditcard);
         }else{
             imageGroup.setImageResource(R.drawable.money);
-        }
-
-        if (dateList.size() == 1){
-            date.setText(dateList.get(0));
-        }else{
-            date.setText(dateList.get(groupPosition));
         }
 
         return convertView;

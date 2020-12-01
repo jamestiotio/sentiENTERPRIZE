@@ -9,10 +9,11 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 public class MonthFragment extends Fragment {
-    WeekData weekData;
+    ArrayList<TransactionSingle> requestedData;
     ExpandableListView transactions;
-    TextView dayTotal;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -26,18 +27,15 @@ public class MonthFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         transactions = view.findViewById(R.id.elvItems);
-        dayTotal = view.findViewById(R.id.TotalSales);
 
-        // Create fake data OR receive fake data
-        weekData = new WeekData(1);
         if (getArguments() != null){
-            weekData = (WeekData) getArguments().getSerializable("data");
+            requestedData = (ArrayList<TransactionSingle>) getArguments().getSerializable("data");
         }
 
 //        dayTotal.setText(String.valueOf(dayData.getDayTotal()));
 
         // Create an adapter (BaseExpandableListAdapter) with the data above
-        ListViewAdapter listViewAdapter = new ListViewAdapter(getActivity(), weekData, 30);
+        ListViewAdapter listViewAdapter = new ListViewAdapter(getActivity(), requestedData);
         // defines the ExpandableListView adapter
         transactions.setAdapter(listViewAdapter);
     }
