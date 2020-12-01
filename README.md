@@ -11,7 +11,7 @@ Group 3-1 Team Members:
 - [Jia Shuyi](https://github.com/shuyijia)
 - [Gerald Hoo Yong Wei](https://github.com/geraldhyw)
 
-Take note that the minimal Android API SDK version is v16 (instead of the more inclusive v14 or v15) as this app require Firebase Realtime Database support.
+Take note that the minimal Android API SDK version is v16 (instead of the more inclusive v14 or v15) as this app requires Firebase Realtime Database support.
 
 ## Future Work
 
