@@ -184,7 +184,9 @@ public class ItemDetailActivity extends BaseActivity implements View.OnClickList
     }
 
     private void itemEdit() {
-        
+        Intent intent = new Intent(this, EditItemActivity.class);
+        intent.putExtra(ItemDetailActivity.EXTRA_ITEM_KEY, mItemKey);
+        startActivity(intent);
     }
 
     private void itemDelete() {

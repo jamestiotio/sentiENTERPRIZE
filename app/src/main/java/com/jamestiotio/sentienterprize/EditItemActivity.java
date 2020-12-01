@@ -1,13 +1,14 @@
 package com.jamestiotio.sentienterprize;
 
 import android.os.Bundle;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,14 +22,19 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NewItemActivity extends BaseActivity {
+public class EditItemActivity extends BaseActivity {
 
+    public static final String EXTRA_ITEM_KEY = "item_key";
     private static final String TAG = "NewItemActivity";
     private static final String REQUIRED = "Required";
     private static final String INVALID = "Invalid";
+    private String mItemKey;
+    private Item myitem;
 
     // [START declare_database_ref]
     private DatabaseReference mDatabase;
+    private DatabaseReference mItemReference;
+    private ValueEventListener mItemListener;
     // [END declare_database_ref]
 
     private EditText mNameField;
@@ -40,11 +46,20 @@ public class NewItemActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_item);
+        setContentView(R.layout.activity_edit_item);
+
+        // Get item key from intent
+        mItemKey = getIntent().getStringExtra(EXTRA_ITEM_KEY);
+        if (mItemKey == null) {
+            throw new IllegalArgumentException("Must pass EXTRA_ITEM_KEY");
+        }
 
         // [START initialize_database_ref]
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
+
+        mItemReference = FirebaseDatabase.getInstance().getReference()
+                .child("RealApparel").child("inventory").child("items").child(mItemKey);
 
         mNameField = findViewById(R.id.fieldName);
         mBodyField = findViewById(R.id.fieldBody);
@@ -68,16 +83,14 @@ public class NewItemActivity extends BaseActivity {
 
         try {
             amount = Integer.valueOf(mAmountField.getText().toString());
-        }
-        catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             mAmountField.setError(INVALID);
             return;
         }
 
         try {
             unitPrice = new BigDecimal(mUnitPriceField.getText().toString()).setScale(2, BigDecimal.ROUND_HALF_UP);
-        }
-        catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             mUnitPriceField.setError(INVALID);
             return;
         }
@@ -96,7 +109,7 @@ public class NewItemActivity extends BaseActivity {
 
         // Disable button so there are no multi-items
         setEditingEnabled(false);
-        Toast.makeText(this, "Adding item...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Updating item...", Toast.LENGTH_SHORT).show();
 
         // [START single_value_read]
         final String userId = getUid();
@@ -111,11 +124,11 @@ public class NewItemActivity extends BaseActivity {
                         if (user == null) {
                             // User is null, error out
                             Log.e(TAG, "User " + userId + " is unexpectedly null");
-                            Toast.makeText(NewItemActivity.this,
+                            Toast.makeText(EditItemActivity.this,
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            checkForUniqueItem(userId, user.username, name, body, amount, unitPrice);
+                            writeEditedItem(userId, user.username, name, body, amount, unitPrice);
                         }
 
                         // Finish this Activity, back to the stream
@@ -135,6 +148,25 @@ public class NewItemActivity extends BaseActivity {
         // [END single_value_read]
     }
 
+    // [START write_fan_out]
+    private void writeEditedItem(String userId, String username, String name, String body, Integer amount, BigDecimal unitPrice) {
+        // Create new item at /user-items/$userid/$itemid and at
+        // /items/$itemid simultaneously
+        String key = name;
+        myitem.name = name;
+        myitem.body = body;
+        myitem.amount = amount;
+        myitem.unitPrice = unitPrice.doubleValue();
+        Map<String, Object> itemValues = myitem.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/RealApparel/inventory/items/" + key, itemValues);
+        childUpdates.put("/RealApparel/inventory/user-items/" + userId + "/" + key, itemValues);
+
+        mDatabase.updateChildren(childUpdates);
+    }
+    // [END write_fan_out]
+
     private void setEditingEnabled(boolean enabled) {
         mNameField.setEnabled(enabled);
         mBodyField.setEnabled(enabled);
@@ -145,51 +177,50 @@ public class NewItemActivity extends BaseActivity {
         }
     }
 
-    private void checkForUniqueItem(String userId, String username, String name, String body, Integer amount, BigDecimal unitPrice) {
-        mDatabase.child("RealApparel").child("inventory").child("items").child(name).addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (!dataSnapshot.exists()) {
-                            // Write new item
-                            writeNewItem(userId, username, name, body, amount, unitPrice);
-                        } else {
-                            // Duplicate item name, error out
-                            Log.e(TAG, name + " is a duplicate item name.");
-                            Toast.makeText(NewItemActivity.this,
-                                    "Error: duplicate item name.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+    @Override
+    public void onStart() {
+        super.onStart();
 
-                        // Finish this Activity, back to the stream
-                        setEditingEnabled(true);
-                        finish();
-                        // [END_EXCLUDE]
-                    }
+        // Add value event listener to the item
+        // [START item_value_event_listener]
+        ValueEventListener itemListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Item object and use the values to update the UI
+                myitem = dataSnapshot.getValue(Item.class);
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w(TAG, "getItemName:onCancelled", databaseError.toException());
-                        // [START_EXCLUDE]
-                        setEditingEnabled(true);
-                        // [END_EXCLUDE]
-                    }
-                });
+                // [START_EXCLUDE]
+                mNameField.setText(myitem.name);
+                mBodyField.setText(myitem.body);
+                mAmountField.setText(String.valueOf(myitem.amount));
+                mUnitPriceField.setText(String.valueOf(myitem.unitPrice));
+                // [END_EXCLUDE]
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Item failed, log a message
+                Log.w(TAG, "loadItem:onCancelled", databaseError.toException());
+                // [START_EXCLUDE]
+                Toast.makeText(EditItemActivity.this, "Failed to load item.",
+                        Toast.LENGTH_SHORT).show();
+                // [END_EXCLUDE]
+            }
+        };
+        mItemReference.addValueEventListener(itemListener);
+        // [END item_value_event_listener]
+
+        // Keep copy of item listener so we can remove it when app stops
+        mItemListener = itemListener;
     }
 
-    // [START write_fan_out]
-    private void writeNewItem(String userId, String username, String name, String body, Integer amount, BigDecimal unitPrice) {
-        // Create new item at /user-items/$userid/$itemid and at
-        // /items/$itemid simultaneously
-        String key = name;
-        Item item = new Item(userId, username, name, body, amount, unitPrice);
-        Map<String, Object> itemValues = item.toMap();
+    @Override
+    public void onStop() {
+        super.onStop();
 
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/RealApparel/inventory/items/" + key, itemValues);
-        childUpdates.put("/RealApparel/inventory/user-items/" + userId + "/" + key, itemValues);
-
-        mDatabase.updateChildren(childUpdates);
+        // Remove item value event listener
+        if (mItemListener != null) {
+            mItemReference.removeEventListener(mItemListener);
+        }
     }
-    // [END write_fan_out]
 }
