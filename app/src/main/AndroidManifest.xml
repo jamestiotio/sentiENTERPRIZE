@@ -12,8 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SentiENTERPRIZE">
-
-        <activity android:name=".SplashScreenActivity"
+        <activity android:name=".EditItemActivity"></activity>
+        <activity
+            android:name=".SplashScreenActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher">
@@ -23,44 +24,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SignInActivity"
             android:label="Menu"
             android:parentActivityName=".SplashScreenActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".MenuActivity"
             android:label="Menu"
             android:parentActivityName=".SignInActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".POSActivity"
             android:label="Point of Sales"
             android:parentActivityName=".MenuActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".InventoryActivity"
             android:label="Inventory"
-            android:theme="@style/Theme.SentiENTERPRIZE"
             android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.SentiENTERPRIZE" />
+        <activity
+            android:name=".NewItemActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".NewItemActivity"
+        <activity
+            android:name=".ItemDetailActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".ItemDetailActivity"
-            android:screenOrientation="portrait" />
-
         <activity
             android:name=".DemandActivity"
             android:label="Demand Prediction"
             android:parentActivityName=".MenuActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".ProfileActivity"
             android:label="Profile"
