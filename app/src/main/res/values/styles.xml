@@ -31,10 +31,15 @@
         <item name="android:fontFamily">@font/montserrat_bold</item>
     </style>
 
-    <style name="textGreyBlack" parent="LinearLayout">
-        <item name="android:background">@drawable/rounded_rect_grey</item>
+    <style name="editTextBlueBlack" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/rounded_rect_blue</item>
         <item name="android:textColor">@color/colorTextOne</item>
         <item name="android:fontFamily">@font/montserrat_bold</item>
     </style>
 
+    <style name="editTextOrangeBlack" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/rounded_rect_orange_light</item>
+        <item name="android:textColor">@color/colorTextOne</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+    </style>
 </resources>

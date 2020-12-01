@@ -1,4 +1,4 @@
-package com.hyw.sentienterprize;
+package com.example.posystem2;
 
 import org.junit.Test;
 

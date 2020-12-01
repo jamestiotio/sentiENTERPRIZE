@@ -1,9 +1,359 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="top|center_horizontal"
+    android:orientation="vertical"
+    android:padding="30dp"
     tools:context=".ProfileActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/realapparellogo"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#000000"/>
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageLogo"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        app:srcCompat="@drawable/ic_sentienterprizelogo" />-->
+
+    <TextView
+        android:id="@+id/textViewCompanyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:textSize="36sp"
+        android:textColor="@color/colorPrimaryOne"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="Real Apparel" />
+
+<!--    First Row-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/nameAndIdRow"
+        android:layout_width="265dp"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content">
+
+<!--        defining left box here-->
+        <LinearLayout
+            android:id="@+id/boxBranch"
+            android:layout_width="120dp"
+            android:layout_height="65dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_gravity="start"
+            android:background="@drawable/rounded_rect_blue">
+
+            <TextView
+                android:id="@+id/textViewBranchName"
+                style="@style/editTextBlueBlack"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Branch Name" />
+
+            <TextView
+                android:id="@+id/textViewBranchNameValue"
+                style="@style/editTextBlueBlack"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="-" />
+
+        </LinearLayout>
+
+<!--        defining right box here-->
+        <LinearLayout
+            android:id="@+id/boxCompany"
+            android:layout_width="120dp"
+            android:layout_height="65dp"
+            android:orientation="vertical"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_gravity="end"
+            android:background="@drawable/rounded_rect_orange_light">
+
+            <TextView
+                android:id="@+id/textViewCompanyId"
+                style="@style/editTextOrangeBlack"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Company ID" />
+
+            <TextView
+                android:id="@+id/textViewCompanyIdValue"
+                style="@style/editTextOrangeBlack"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="-" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    Second Row-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profitRow"
+        android:layout_width="265dp"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content">
+
+        <!--        defining left box here-->
+        <LinearLayout
+            android:id="@+id/boxProfit"
+            android:layout_width="120dp"
+            android:layout_height="65dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_gravity="start"
+            android:background="@drawable/rounded_rect_blue">
+
+            <TextView
+                android:id="@+id/textViewProfit"
+                style="@style/editTextBlueBlack"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Profit" />
+
+            <TextView
+                android:id="@+id/textViewProfitValue"
+                style="@style/editTextBlueBlack"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="-" />
+
+        </LinearLayout>
+
+        <!--        defining right box here-->
+        <LinearLayout
+            android:id="@+id/boxProfitMonth"
+            android:layout_width="120dp"
+            android:layout_height="65dp"
+            android:orientation="vertical"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_gravity="end"
+            android:background="@drawable/rounded_rect_orange_light">
+
+            <TextView
+                android:id="@+id/textViewProfitMonth"
+                style="@style/editTextOrangeBlack"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Profit/Mth" />
+
+            <TextView
+                android:id="@+id/textViewProfitMonthValue"
+                style="@style/editTextOrangeBlack"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="-" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    Third Row-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transactionRow"
+        android:layout_width="265dp"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content">
+
+        <!--        defining left box here-->
+        <LinearLayout
+            android:id="@+id/boxTransaction"
+            android:layout_width="120dp"
+            android:layout_height="65dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_gravity="start"
+            android:background="@drawable/rounded_rect_blue">
+
+            <TextView
+                android:id="@+id/textViewTransaction"
+                style="@style/editTextBlueBlack"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Total Transactions" />
+
+            <TextView
+                android:id="@+id/textViewTransactionValue"
+                style="@style/editTextBlueBlack"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="-" />
+
+        </LinearLayout>
+
+        <!--        defining right box here-->
+        <LinearLayout
+            android:id="@+id/boxTransactionMonth"
+            android:layout_width="120dp"
+            android:layout_height="65dp"
+            android:orientation="vertical"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_gravity="end"
+            android:background="@drawable/rounded_rect_orange_light">
+
+            <TextView
+                android:id="@+id/textViewTransactionMonth"
+                style="@style/editTextOrangeBlack"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Transactions/Mth" />
+
+            <TextView
+                android:id="@+id/textViewTransactionMonthValue"
+                style="@style/editTextOrangeBlack"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="-" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--    Fourth Row-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/orderRow"
+        android:layout_width="265dp"
+        android:layout_marginBottom="30dp"
+        android:layout_height="wrap_content">
+
+        <!--        defining left box here-->
+        <LinearLayout
+            android:id="@+id/boxOrder"
+            android:layout_width="120dp"
+            android:layout_height="65dp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_gravity="start"
+            android:background="@drawable/rounded_rect_blue">
+
+            <TextView
+                android:id="@+id/textViewOrder"
+                style="@style/editTextBlueBlack"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Total Orders" />
+
+            <TextView
+                android:id="@+id/textViewOrderValue"
+                style="@style/editTextBlueBlack"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="-" />
+
+        </LinearLayout>
+
+        <!--        defining right box here-->
+        <LinearLayout
+            android:id="@+id/boxOrderMonth"
+            android:layout_width="120dp"
+            android:layout_height="65dp"
+            android:orientation="vertical"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_gravity="end"
+            android:background="@drawable/rounded_rect_orange_light">
+
+            <TextView
+                android:id="@+id/textViewOrderMonth"
+                style="@style/editTextOrangeBlack"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Orders/Mth" />
+
+            <TextView
+                android:id="@+id/textViewOrderMonthValue"
+                style="@style/editTextOrangeBlack"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="-" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <Button
+        android:id="@+id/buttonLogOut"
+        style="@style/buttonOrangeBlack"
+        android:layout_width="265dp"
+        android:layout_height="50dp"
+        android:text="Sign Out"
+        android:textSize="14sp" />
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

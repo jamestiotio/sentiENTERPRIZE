@@ -1,14 +1,14 @@
-package com.hyw.sentienterprize;
+package com.example.posystem2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class POSActivity extends AppCompatActivity {
+public class DemandActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_p_o_s);
+        setContentView(R.layout.activity_demand);
     }
 }

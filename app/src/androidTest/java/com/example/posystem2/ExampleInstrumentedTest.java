@@ -1,4 +1,4 @@
-package com.hyw.sentienterprize;
+package com.example.posystem2;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.hyw.sentienterprize", appContext.getPackageName());
+        assertEquals("com.example.posystem2", appContext.getPackageName());
     }
 }

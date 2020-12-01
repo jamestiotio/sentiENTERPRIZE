@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hyw.sentienterprize">
+    package="com.example.posystem2">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,24 +20,29 @@
         </activity>
         <activity
             android:name=".MenuActivity"
-            android:label="MenuActivity"
-            android:parentActivityName=".MainActivity" />
+            android:label="Menu"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".POSActivity"
-            android:label="POSActivity"
-            android:parentActivityName=".MenuActivity" />
+            android:label="Point of Sales"
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".InventoryActivity"
-            android:label="MenuActivity"
-            android:parentActivityName=".MenuActivity" />
+            android:label="Inventory"
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DemandActivity"
-            android:label="MenuActivity"
-            android:parentActivityName=".MenuActivity" />
+            android:label="Demand Prediction"
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ProfileActivity"
-            android:label="MenuActivity"
-            android:parentActivityName=".MenuActivity" />
+            android:label="Profile"
+            android:parentActivityName=".MenuActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
