@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".POSActivity">
+
+    <TextView
+        android:id="@+id/company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Real Apparel"
+        android:textSize="36sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/colorPrimaryOne"
+        android:fontFamily="@font/montserrat_bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <Button
+        android:id="@+id/dayButton"
+        style="@style/buttonBlueBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:text="Day"
+        android:textColor="#000"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/company"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/weekButton"
+        />
+
+    <Button
+        android:id="@+id/weekButton"
+        style="@style/buttonBlueWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:text="Week"
+        android:textSize="15dp"
+        app:layout_constraintTop_toBottomOf="@id/company"
+        app:layout_constraintLeft_toRightOf="@id/dayButton"
+        app:layout_constraintRight_toLeftOf="@id/monthButton"
+        />
+
+    <Button
+        android:id="@+id/monthButton"
+        style="@style/buttonBlueWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:text="Month"
+        android:textSize="15dp"
+        app:layout_constraintTop_toBottomOf="@id/company"
+        app:layout_constraintLeft_toRightOf="@id/weekButton"
+        app:layout_constraintRight_toLeftOf="@id/rangeButton"
+        />
+
+    <Button
+        android:id="@+id/rangeButton"
+        style="@style/buttonBlueWhite"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:text="Range"
+        android:textSize="15dp"
+        app:layout_constraintTop_toBottomOf="@id/company"
+        app:layout_constraintLeft_toRightOf="@id/monthButton"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <FrameLayout
+        android:id="@+id/flFrag"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintTop_toBottomOf="@id/rangeButton"
+        app:layout_constraintBottom_toTopOf="@id/totalLayout"
+        />
+
+    <LinearLayout
+        android:id="@+id/totalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="#FFF"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:text="Total"
+            android:textSize="25dp"
+            android:textColor="#000000"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(incl. GST)"
+            android:textSize="15dp"
+            android:layout_marginLeft="7dp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/TotalSales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$0.00"
+            android:textColor="@color/colorPrimaryOne"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="25dp" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

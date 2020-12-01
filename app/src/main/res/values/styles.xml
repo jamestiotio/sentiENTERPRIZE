@@ -1,26 +1,21 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
-    <style name="AppTheme.Launcher">
-    <item name="android:windowBackground">@drawable/launch_screen</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-    <style name="AppTheme.AppBarOverlay" parent="Theme.MaterialComponents.Light.DarkActionBar"/>
-    <style name="AppTheme.PopupOverlay" parent="Theme.MaterialComponents.Light"/>
-
+    
     <style name="buttonBlueWhite" parent="android:Widget.Button">
         <item name="android:background">@drawable/rounded_rect_blue</item>
         <item name="android:textColor">@color/colorTextTwo</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+    </style>
+
+    <style name="buttonOrangeCoffee" parent="android:Widget.Button">
+        <item name="android:background">@drawable/rounded_rect_blue</item>
+        <item name="android:textColor">@color/colorTextThree</item>
         <item name="android:fontFamily">@font/montserrat_bold</item>
     </style>
 
@@ -41,4 +36,17 @@
         <item name="android:textColor">@color/colorTextOne</item>
         <item name="android:fontFamily">@font/montserrat_bold</item>
     </style>
+
+    <style name="editTextBlueBlack" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/rounded_rect_blue</item>
+        <item name="android:textColor">@color/colorTextOne</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+    </style>
+
+    <style name="editTextOrangeBlack" parent="android:Widget.EditText">
+        <item name="android:background">@drawable/rounded_rect_orange_light</item>
+        <item name="android:textColor">@color/colorTextOne</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+    </style>
+
 </resources>
