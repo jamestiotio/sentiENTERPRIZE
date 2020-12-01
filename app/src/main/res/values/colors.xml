@@ -18,6 +18,9 @@ ic
     <color name="icons">#212121</color>
     <color name="divider">#B6B6B6</color>
 
+    <color name="colorTextThree">#352D39</color>
+
+
     <!-- Dark Theme Colors (Not Implemented Yet) -->
     <!-- <color name="colorPrimaryOneDark">#EC8B5E</color> -->
     <!-- <color name="colorPrimaryTwoDark">#F7A984</color> -->
