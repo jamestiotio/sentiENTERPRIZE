@@ -19,7 +19,7 @@ Take note that the minimal Android API SDK version is v16 (instead of the more i
 - Custom sorting options for inventory management
 - Barcode scanner for inventory management
 - Add, edit and delete transactions to POS system
-- Liquid animations? (using After Effects)
+- Animations? (Options: liquid animation using After Effects, animated background of wobbly canvas, circular fill reveal, collapse animation, login transitions, )
 - Fragment-based curved bottom navigation bar
 - Support for multiple companies (instead of a hardcoded “RealApparel”)
-- Actual demand prediction algorithm using data (inventory, transactions, tax rates and revenue/cost/profit)
+- Actual demand prediction algorithm using data from Firebase backend (inventory, transactions, tax rates and revenue/cost/profit)
