@@ -18,7 +18,8 @@ Take note that the minimal Android API SDK version is v16 (instead of the more i
 - Search function for inventory management
 - Custom sorting options for inventory management
 - Barcode scanner for inventory management
-- Edit and delete items in inventory
+- Add, edit and delete transactions to POS system
 - Liquid animations? (using After Effects)
 - Fragment-based curved bottom navigation bar
 - Support for multiple companies (instead of a hardcoded “RealApparel”)
+- Actual demand prediction algorithm using data (inventory, transactions, tax rates and revenue/cost/profit)
