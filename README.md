@@ -15,6 +15,7 @@ Take note that the minimal Android API SDK version is v16 (instead of the more i
 
 ## Future Work
 
+- Basic quality-of-life improvements (UI interactions)
 - Search function for inventory management
 - Custom sorting options for inventory management
 - Barcode scanner for inventory management
