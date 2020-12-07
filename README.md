@@ -13,6 +13,8 @@ Group 3-1 Team Members:
 
 Take note that the minimal Android API SDK version is v16 (instead of the more inclusive v14 or v15) as this app requires Firebase Realtime Database support.
 
+You can watch our video [here](https://youtu.be/jfxNiFLitZU).
+
 ## Future Work
 
 - Basic quality-of-life improvements (UI interactions)
