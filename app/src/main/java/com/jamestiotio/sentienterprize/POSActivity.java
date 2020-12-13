@@ -5,12 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +41,7 @@ public class POSActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pos);
 
-        //
+
         db = FirebaseDatabase.getInstance().getReference().child("RealApparel").child("transactions");
 
         // Read from the database
@@ -45,11 +49,11 @@ public class POSActivity extends AppCompatActivity{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    transList.add(new TransactionSingle(snapshot));
-                }
-                updateListView(transList);
+                // whenever data at this location is updated
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        transList.add(new TransactionSingle(snapshot));
+                    }
+                    updateListView(transList);
             }
             @Override
             public void onCancelled(DatabaseError error) {
@@ -169,6 +173,29 @@ public class POSActivity extends AppCompatActivity{
                 setButtons(buttons, buttonOn);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_pos, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_new_trans){
+            Intent intent = new Intent(POSActivity.this, NewTransaction.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public String getTotal(ArrayList<TransactionSingle> l){

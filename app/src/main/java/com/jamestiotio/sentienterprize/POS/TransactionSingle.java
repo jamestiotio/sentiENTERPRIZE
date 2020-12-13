@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,22 +22,24 @@ public class TransactionSingle implements Serializable, Comparable<TransactionSi
     private double transTotal;
     private ArrayList<Item> itemList;
 
+    public TransactionSingle(){
+        this.timestamp = new Long(System.currentTimeMillis());
+        this.datetime = setDateTime(timestamp);
+        this.code = setCode();
+        this.transType = "Card"; // set default to card, can be changed
+    }
+
     public TransactionSingle(DataSnapshot snapshot){
         itemList = new ArrayList<>();
 
         this.code = snapshot.getKey();
 
-        if ((int)(Math.random()*60) < 30){
-            transType = "card";
-        }else{
-            transType = "cash";
-        }
-
-        this.transTotal = Double.parseDouble(snapshot.child("finalPrice").getValue().toString());
+        this.transTotal = Double.parseDouble(snapshot.child("transTotal").getValue().toString());
         this.timestamp = Long.parseLong(snapshot.child("timestamp").getValue().toString());
+        this.transType = snapshot.child("transType").getValue().toString();
         this.datetime = setDateTime(timestamp);
 
-        for (DataSnapshot item : snapshot.child("items").getChildren()){
+        for (DataSnapshot item : snapshot.child("itemList").getChildren()){
             processItem(item);
         }
     }
@@ -91,6 +94,24 @@ public class TransactionSingle implements Serializable, Comparable<TransactionSi
 
     public ArrayList<Item> getItemList() {
         return itemList;
+    }
+
+    public void setTransType(String transType) {
+        this.transType = transType;
+    }
+
+    public void setTransTotal(double transTotal) {
+        this.transTotal = transTotal;
+    }
+
+    public void setItemList(ArrayList<Item> itemList) {
+        this.itemList = itemList;
+    }
+
+    public String setCode(){
+        final String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+        String code = uuid.substring(0,5);
+        return code;
     }
 
     @NonNull

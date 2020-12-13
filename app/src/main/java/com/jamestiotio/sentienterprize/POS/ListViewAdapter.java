@@ -104,7 +104,7 @@ public class ListViewAdapter extends BaseExpandableListAdapter {
         subTotal.setText(String.format("%,.2f", subTotalValues.get(groupPosition)));
         datetime.setText(datetimeList.get(groupPosition));
 
-        if (imageList.get(groupPosition) == "card"){
+        if (imageList.get(groupPosition).equals("Card")){
             imageGroup.setImageResource(R.drawable.creditcard);
         }else{
             imageGroup.setImageResource(R.drawable.money);

@@ -80,7 +80,6 @@ public class TransactionClassification {
         for(int i = 1; i < 7; i++){
             cal.add(Calendar.DAY_OF_YEAR, -1);
             date = cal.getTime();
-            System.out.println(date);
             days[i] = sdf.format(date);
         }
 
@@ -89,13 +88,8 @@ public class TransactionClassification {
         // get all transactions in the last 7 days
         for (TransactionSingle t : fullData){
             String tDateTime = t.getDatetime().substring(0,10);
-            System.out.println("XXX");
-            System.out.println(tDateTime);
-            System.out.println(list);
             if (list.contains(tDateTime)){
                 weekList.add(t);
-                System.out.println("Gay");
-                System.out.println("XXX");
             }
         }
 
