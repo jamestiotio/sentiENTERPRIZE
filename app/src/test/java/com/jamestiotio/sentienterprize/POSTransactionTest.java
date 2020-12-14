@@ -80,13 +80,13 @@ public class POSTransactionTest {
         TransactionSingle transactionSingle = new TransactionSingle();
 
         assertEquals("Card", transactionSingle.getTransType());
-        assertTrue(Utils.isValidTransactionCodeFormat(transactionSingle.getCode()));
+        assertTrue(UnitTestUtils.isValidTransactionCodeFormat(transactionSingle.getCode()));
         assertTrue(transactionSingle.getTimestamp() - LocalDateTime.parse(transactionSingle.getDatetime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                 .atZone(ZoneId.of("Etc/UTC")).toInstant().toEpochMilli() < 60000L); // Difference is less than a minute
-        assertTrue(Utils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.getDatetime(), Locale.ENGLISH));
+        assertTrue(UnitTestUtils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.getDatetime(), Locale.ENGLISH));
         assertEquals(0.0d, transactionSingle.getTransTotal(), 0.0001);
         assertNull(transactionSingle.getItemList());
-        assertTrue(Utils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.toString(), Locale.ENGLISH));
+        assertTrue(UnitTestUtils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.toString(), Locale.ENGLISH));
     }
 
     @Test
@@ -107,13 +107,13 @@ public class POSTransactionTest {
         transactionSingle.setTransTotal(131733.944);
 
         assertEquals("Cash", transactionSingle.getTransType());
-        assertTrue(Utils.isValidTransactionCodeFormat(transactionSingle.getCode()));
+        assertTrue(UnitTestUtils.isValidTransactionCodeFormat(transactionSingle.getCode()));
         assertTrue(transactionSingle.getTimestamp() - LocalDateTime.parse(transactionSingle.getDatetime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                 .atZone(ZoneId.of("Etc/UTC")).toInstant().toEpochMilli() < 60000L); // Difference is less than a minute
-        assertTrue(Utils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.getDatetime(), Locale.ENGLISH));
+        assertTrue(UnitTestUtils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.getDatetime(), Locale.ENGLISH));
         assertEquals(result, transactionSingle.getTransTotal(), 0.0001);
         assertEquals(newItemList, transactionSingle.getItemList());
-        assertTrue(Utils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.toString(), Locale.ENGLISH));
+        assertTrue(UnitTestUtils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.toString(), Locale.ENGLISH));
     }
 
     @Test

@@ -9,10 +9,10 @@ import java.time.format.ResolverStyle;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-public class Utils {
+public class UnitTestUtils {
     // Adapted from https://stackoverflow.com/a/20232680/10243394
     public static boolean isValidDateFormat(String format, String value, Locale locale) {
-        LocalDateTime ldt = null;
+        LocalDateTime ldt;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format, locale).withResolverStyle(ResolverStyle.SMART);
 
         try {
