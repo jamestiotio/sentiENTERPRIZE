@@ -26,3 +26,4 @@ You can watch our video [here](https://youtu.be/jfxNiFLitZU).
 - Fragment-based curved bottom navigation bar
 - Support for multiple companies (instead of a hardcoded “RealApparel”)
 - Actual demand prediction algorithm using data from Firebase backend (inventory, transactions, tax rates and revenue/cost/profit)
+- Add more unit tests and instrumentation tests
