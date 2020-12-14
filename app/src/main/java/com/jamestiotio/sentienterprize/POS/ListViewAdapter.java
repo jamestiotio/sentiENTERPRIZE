@@ -21,7 +21,7 @@ public class ListViewAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<Double> subTotalValues;
 
-    public ListViewAdapter(Context context, ArrayList<TransactionSingle> transList){
+    public ListViewAdapter(Context context, ArrayList<TransactionSingle> transList) {
         this.context = context;
 
         // initialise attributes
@@ -32,7 +32,7 @@ public class ListViewAdapter extends BaseExpandableListAdapter {
         imageList = new ArrayList<>();
 
         // get attributes
-        for (TransactionSingle t : transList){
+        for (TransactionSingle t : transList) {
             lstGroups.add(t.getCode());
             subTotalValues.add(t.getTransTotal());
             datetimeList.add(t.getDatetime());

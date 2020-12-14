@@ -1,10 +1,13 @@
 package com.jamestiotio.sentienterprize.gravatar;
 
+import java.io.Closeable;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
@@ -23,11 +26,11 @@ public final class Gravatar {
     private final static int DEFAULT_SIZE = 40;
     private final static String GRAVATAR_URL = "https://s.gravatar.com/avatar/";
     private static final GravatarRating DEFAULT_RATING = GravatarRating.GENERAL_AUDIENCES;
-    private static final GravatarDefaultImage DEFAULT_DEFAULT_IMAGE = GravatarDefaultImage.HTTP_404;
+    private static final GravatarDefaultImage DEFAULT_IMAGE = GravatarDefaultImage.GRAVATAR_ICON;
 
     private int size = DEFAULT_SIZE;
     private GravatarRating rating = DEFAULT_RATING;
-    private GravatarDefaultImage defaultImage = DEFAULT_DEFAULT_IMAGE;
+    private GravatarDefaultImage defaultImage = DEFAULT_IMAGE;
 
     /**
      * Specify a gravatar size between 1 and 512 pixels. If you omit this, a
@@ -65,7 +68,12 @@ public final class Gravatar {
         // with all whitespace trimmed
         String emailHash = new String(Hex.encodeHex(DigestUtils.md5(email.toLowerCase().trim())));
         String params = formatUrlParameters();
-        return GRAVATAR_URL + emailHash + ".jpg" + params;
+        if (!(params.isEmpty())) {
+            return GRAVATAR_URL + emailHash + ".jpg" + params;
+        }
+        else {
+            return GRAVATAR_URL + emailHash + ".jpg";
+        }
     }
 
     /**
@@ -84,23 +92,38 @@ public final class Gravatar {
         } catch (Exception e) {
             throw new GravatarDownloadException(e);
         } finally {
-            IOUtils.closeQuietly(stream);
+            cleanup(Objects.requireNonNull(stream));
+        }
+    }
+
+    private static void cleanup(Closeable stream) {
+        try {
+            stream.close();
+        } catch (IOException e) {
+            throw new GravatarDownloadException(e);
         }
     }
 
     private String formatUrlParameters() {
         List<String> params = new ArrayList<>();
 
-        if (size != DEFAULT_SIZE)
+        if (size != DEFAULT_SIZE) {
             params.add("s=" + size);
-        if (rating != DEFAULT_RATING)
-            params.add("r=" + rating.getCode());
-        if (defaultImage != GravatarDefaultImage.GRAVATAR_ICON)
-            params.add("d=" + defaultImage.getCode());
+        }
 
-        if (params.isEmpty())
+        if (rating != DEFAULT_RATING) {
+            params.add("r=" + rating.getCode());
+        }
+
+        if (defaultImage != GravatarDefaultImage.GRAVATAR_ICON) {
+            params.add("d=" + defaultImage.getCode());
+        }
+
+        if (params.isEmpty()) {
             return "";
-        else
+        }
+        else {
             return "?" + StringUtils.join(params.iterator(), "&");
+        }
     }
 }

@@ -13,11 +13,10 @@ public class TransactionClassification {
     private ArrayList<TransactionSingle> weekList = new ArrayList<>();
     private ArrayList<TransactionSingle> monthList = new ArrayList<>();;
 
-    public TransactionClassification(ArrayList<TransactionSingle> fullData){
+    public TransactionClassification(ArrayList<TransactionSingle> fullData) {
         getDayList(fullData);
         getWeekList(fullData);
         getMonthList(fullData);
-
     }
 
     public ArrayList<TransactionSingle> getDayList() {
@@ -32,7 +31,7 @@ public class TransactionClassification {
         return monthList;
     }
 
-    public void getDayList(ArrayList<TransactionSingle> fullData) {
+    private void getDayList(ArrayList<TransactionSingle> fullData) {
         String latestDate = "";
 
         // get largest timestamp
@@ -45,10 +44,10 @@ public class TransactionClassification {
         }
 
         // get all latest day's transaction
-        for (TransactionSingle t : fullData){
+        for (TransactionSingle t : fullData) {
             String tDateTime = t.getDatetime().substring(0,10);
 
-            if (tDateTime.equals(latestDate)){
+            if (tDateTime.equals(latestDate)) {
                 dayList.add(t);
             }
         }
@@ -56,15 +55,12 @@ public class TransactionClassification {
         Collections.sort(dayList);
     }
 
-    public void getWeekList(ArrayList<TransactionSingle> fullData) {
-        String latestDate = "";
-
+    private void getWeekList(ArrayList<TransactionSingle> fullData) {
         // get largest timestamp
         Long temp = Long.valueOf(0);
         for (TransactionSingle t : fullData) {
             if (t.getTimestamp() > temp) {
                 temp = t.getTimestamp();
-                latestDate = t.getDatetime().substring(0,10);
             }
         }
 
@@ -77,7 +73,7 @@ public class TransactionClassification {
         cal.setTime(date);
         days[0] = sdf.format(date);
 
-        for(int i = 1; i < 7; i++){
+        for (int i = 1; i < 7; i++) {
             cal.add(Calendar.DAY_OF_YEAR, -1);
             date = cal.getTime();
             days[i] = sdf.format(date);
@@ -86,9 +82,9 @@ public class TransactionClassification {
         List<String> list = Arrays.asList(days);
 
         // get all transactions in the last 7 days
-        for (TransactionSingle t : fullData){
+        for (TransactionSingle t : fullData) {
             String tDateTime = t.getDatetime().substring(0,10);
-            if (list.contains(tDateTime)){
+            if (list.contains(tDateTime)) {
                 weekList.add(t);
             }
         }
@@ -96,15 +92,12 @@ public class TransactionClassification {
         Collections.sort(weekList);
     }
 
-    public void getMonthList(ArrayList<TransactionSingle> fullData) {
-        String latestDate = "";
-
+    private void getMonthList(ArrayList<TransactionSingle> fullData) {
         // get largest timestamp
         Long temp = Long.valueOf(0);
         for (TransactionSingle t : fullData) {
             if (t.getTimestamp() > temp) {
                 temp = t.getTimestamp();
-                latestDate = t.getDatetime().substring(0,10);
             }
         }
 
@@ -117,7 +110,7 @@ public class TransactionClassification {
         String[] days = new String[30];
         days[0] = sdf.format(date);
 
-        for(int i = 1; i < 30; i++){
+        for(int i = 1; i < 30; i++) {
             cal.add(Calendar.DAY_OF_YEAR, -1);
             date = cal.getTime();
             days[i] = sdf.format(date);
@@ -126,15 +119,14 @@ public class TransactionClassification {
         List<String> list = Arrays.asList(days);
 
         // get all transactions in the last 7 days
-        for (TransactionSingle t : fullData){
+        for (TransactionSingle t : fullData) {
             String tDateTime = t.getDatetime().substring(0,10);
 
-            if (list.contains(tDateTime)){
+            if (list.contains(tDateTime)) {
                 monthList.add(t);
             }
         }
 
         Collections.sort(monthList);
     }
-
 }

@@ -5,12 +5,10 @@ import androidx.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -22,14 +20,14 @@ public class TransactionSingle implements Serializable, Comparable<TransactionSi
     private double transTotal;
     private ArrayList<Item> itemList;
 
-    public TransactionSingle(){
+    public TransactionSingle() {
         this.timestamp = new Long(System.currentTimeMillis());
         this.datetime = setDateTime(timestamp);
         this.code = setCode();
         this.transType = "Card"; // set default to card, can be changed
     }
 
-    public TransactionSingle(DataSnapshot snapshot){
+    public TransactionSingle(DataSnapshot snapshot) {
         itemList = new ArrayList<>();
 
         this.code = snapshot.getKey();
@@ -39,12 +37,12 @@ public class TransactionSingle implements Serializable, Comparable<TransactionSi
         this.transType = snapshot.child("transType").getValue().toString();
         this.datetime = setDateTime(timestamp);
 
-        for (DataSnapshot item : snapshot.child("itemList").getChildren()){
+        for (DataSnapshot item : snapshot.child("itemList").getChildren()) {
             processItem(item);
         }
     }
 
-    public void processItem(DataSnapshot snapshot){
+    private void processItem(DataSnapshot snapshot) {
         String itemName = snapshot.getKey();
         int quantity = Integer.parseInt(snapshot.child("quantity").getValue().toString());
         double unitPrice = (double) snapshot.child("unitPrice").getValue();
@@ -52,7 +50,7 @@ public class TransactionSingle implements Serializable, Comparable<TransactionSi
         itemList.add(item);
     }
 
-    public String setDateTime(Long timestamp){
+    private String setDateTime(Long timestamp) {
         Date date = new Date(timestamp);
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
@@ -63,11 +61,11 @@ public class TransactionSingle implements Serializable, Comparable<TransactionSi
     @Override
     public int compareTo(TransactionSingle o) {
         // reverse ordering
-        if (this.timestamp - o.timestamp > 0){
+        if (this.timestamp - o.timestamp > 0) {
             return -1;
-        }else if (this.timestamp - o.timestamp == 0) {
+        } else if (this.timestamp - o.timestamp == 0) {
             return 0;
-        }else{
+        } else {
             return 1;
         }
     }
@@ -108,7 +106,7 @@ public class TransactionSingle implements Serializable, Comparable<TransactionSi
         this.itemList = itemList;
     }
 
-    public String setCode(){
+    private String setCode() {
         final String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
         String code = uuid.substring(0,5);
         return code;

@@ -7,7 +7,7 @@ public enum GravatarRating {
 
     RESTRICTED("r"),
 
-    XPLICIT("x");
+    EXPLICIT("x");
 
     private String code;
 

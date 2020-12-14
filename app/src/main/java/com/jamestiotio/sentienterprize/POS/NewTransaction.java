@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NewTransaction extends AppCompatActivity implements AdapterView.OnItemSelectedListener, NewItemFragment.OnCompleteListener {
-    String[] transTypeArray = {"Card", "Cash" };
+    String[] transTypeArray = {"Card", "Cash"};
     private static DatabaseReference db;
     HashMap<String, Integer> inventoryFull;
     TransactionSingle newTrans;
@@ -103,20 +103,20 @@ public class NewTransaction extends AppCompatActivity implements AdapterView.OnI
         showList(newItemList);
     }
 
-    public void showList(ArrayList<Item> itemList){
+    public void showList(ArrayList<Item> itemList) {
         AddNewListAdapter adapter = new AddNewListAdapter(this, itemList);
         itemListView.setAdapter(adapter);
     }
 
-    public double calculateTransTotal(ArrayList<Item> l){
+    public double calculateTransTotal(ArrayList<Item> l) {
         double total = 0;
-        for (Item i:l){
+        for (Item i:l) {
             total += i.getUnitPrice() * i.getQuantity();
         }
         return total;
     }
 
-    public void dbUpdate(TransactionSingle newTrans){
+    public void dbUpdate(TransactionSingle newTrans) {
         // update transactions
         db.child("transactions").child(newTrans.getCode()).child("datetime").setValue(newTrans.getDatetime());
         db.child("transactions").child(newTrans.getCode()).child("transTotal").setValue(newTrans.getTransTotal());

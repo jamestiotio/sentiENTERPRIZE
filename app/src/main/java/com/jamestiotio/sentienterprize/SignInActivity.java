@@ -3,6 +3,7 @@ package com.jamestiotio.sentienterprize;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.jamestiotio.sentienterprize.models.User;
+
+import java.util.Objects;
+
+import static com.jamestiotio.sentienterprize.utils.GetUsernameFromEmail.usernameFromEmail;
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
@@ -116,14 +121,14 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             onAuthSuccess(task.getResult().getUser());
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(getApplicationContext(), "Registration Failed :( Contact admin for help", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Registration Failed. :( Contact admin for help.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
     }
 
     private void onAuthSuccess(FirebaseUser user) {
-        String username = usernameFromEmail(user.getEmail());
+        String username = usernameFromEmail(Objects.requireNonNull(user.getEmail()));
 
         // Write new user
         writeNewUser(user.getUid(), username, user.getEmail());
@@ -132,14 +137,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         Intent intentMainToOption = new Intent(SignInActivity.this, MenuActivity.class);
         startActivity(intentMainToOption);
         finish();
-    }
-
-    private String usernameFromEmail(String email) {
-        if (email.contains("@")) {
-            return email.split("@")[0];
-        } else {
-            return email;
-        }
     }
 
     private boolean validateForm(String email, String password) {

@@ -9,7 +9,7 @@ public class Item implements Serializable {
     private int quantity;
     private double unitPrice;
 
-    public Item(String name, int quantity, double unitPrice){
+    public Item(String name, int quantity, double unitPrice) {
         this.name = name;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
@@ -39,7 +39,7 @@ public class Item implements Serializable {
         this.unitPrice = unitPrice;
     }
 
-    public String getStringAmount(){
+    public String getStringAmount() {
         return String.format("%,.2f", getUnitPrice());
     }
 

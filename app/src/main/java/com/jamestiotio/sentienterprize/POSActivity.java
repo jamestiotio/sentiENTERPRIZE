@@ -25,7 +25,7 @@ import com.jamestiotio.sentienterprize.POS.*;
 
 import java.util.ArrayList;
 
-public class POSActivity extends AppCompatActivity{
+public class POSActivity extends AppCompatActivity {
     private static DatabaseReference db;
     private ArrayList<TransactionSingle> transList = new ArrayList<>();
 
