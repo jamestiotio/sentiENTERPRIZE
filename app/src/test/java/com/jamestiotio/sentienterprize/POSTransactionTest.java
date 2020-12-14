@@ -3,7 +3,6 @@ package com.jamestiotio.sentienterprize;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 import com.jamestiotio.sentienterprize.POS.Item;
 import com.jamestiotio.sentienterprize.POS.NewTransaction;
@@ -81,7 +80,7 @@ public class POSTransactionTest {
 
         assertEquals("Card", transactionSingle.getTransType());
         assertTrue(UnitTestUtils.isValidTransactionCodeFormat(transactionSingle.getCode()));
-        assertTrue(transactionSingle.getTimestamp() - LocalDateTime.parse(transactionSingle.getDatetime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+        assertTrue("Difference is more than or equal to a minute.", transactionSingle.getTimestamp() - LocalDateTime.parse(transactionSingle.getDatetime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                 .atZone(ZoneId.of("Etc/UTC")).toInstant().toEpochMilli() < 60000L); // Difference is less than a minute
         assertTrue(UnitTestUtils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.getDatetime(), Locale.ENGLISH));
         assertEquals(0.0d, transactionSingle.getTransTotal(), 0.0001);
@@ -106,9 +105,9 @@ public class POSTransactionTest {
         transactionSingle.setItemList(newItemList);
         transactionSingle.setTransTotal(131733.944);
 
-        assertEquals("Cash", transactionSingle.getTransType());
+        assertEquals("Cash", transactionSingle.getTransType()); // TODO: Need to verify that options are limited to only "Card" or "Cash"
         assertTrue(UnitTestUtils.isValidTransactionCodeFormat(transactionSingle.getCode()));
-        assertTrue(transactionSingle.getTimestamp() - LocalDateTime.parse(transactionSingle.getDatetime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
+        assertTrue("Difference is more than or equal to a minute.", transactionSingle.getTimestamp() - LocalDateTime.parse(transactionSingle.getDatetime(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
                 .atZone(ZoneId.of("Etc/UTC")).toInstant().toEpochMilli() < 60000L); // Difference is less than a minute
         assertTrue(UnitTestUtils.isValidDateFormat("dd/MM/yyyy HH:mm", transactionSingle.getDatetime(), Locale.ENGLISH));
         assertEquals(result, transactionSingle.getTransTotal(), 0.0001);
@@ -121,8 +120,8 @@ public class POSTransactionTest {
         TransactionSingle firstTransaction = new TransactionSingle();
         TransactionSingle secondTransaction = new TransactionSingle();
 
-        assertEquals(1, firstTransaction.compareTo(secondTransaction));
-        assertEquals(-1, secondTransaction.compareTo(firstTransaction));
+        assertEquals("1 is expected due to reverse ordering.", 1, firstTransaction.compareTo(secondTransaction));
+        assertEquals("-1 is expected due to reverse ordering.", -1, secondTransaction.compareTo(firstTransaction));
         assertEquals(0, firstTransaction.compareTo(firstTransaction));
         assertEquals(0, secondTransaction.compareTo(secondTransaction));
     }
