@@ -92,7 +92,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             onAuthSuccess(task.getResult().getUser());
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(getApplicationContext(), "Authentication Failed :( Contact admin for help", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Authentication Failed. :( Contact admin for help.", Toast.LENGTH_LONG).show();
                         }
                     }
                 });
