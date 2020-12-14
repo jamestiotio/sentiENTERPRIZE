@@ -20,6 +20,8 @@ You can watch our video [here](https://youtu.be/jfxNiFLitZU).
 ## Future Work
 
 - Basic quality-of-life improvements (UI interactions)
+- Add a "summary of relevant recent notable happenings/events in terms of transactions/inventory/stocks/demand for the company" page/activity (content determined heuristically or algorithmically)
+- Add an announcement feature to be distributed to all users of a specific company (displayed as a scrolling upper banner)
 - Search function for inventory management
 - Custom sorting options for inventory management
 - Barcode scanner for inventory management
