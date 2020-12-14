@@ -12,7 +12,6 @@ public class MenuActivity extends AppCompatActivity {
 
     Button buttonPOS;
     Button buttonInventory;
-    Button buttonDemand;
     Button buttonProfile;
 
     @Override
@@ -22,7 +21,6 @@ public class MenuActivity extends AppCompatActivity {
 
         buttonPOS = findViewById(R.id.buttonPOS);
         buttonInventory = findViewById(R.id.buttonInventory);
-        buttonDemand = findViewById(R.id.buttonDemand);
         buttonProfile = findViewById(R.id.buttonProfile);
 
         buttonPOS.setOnClickListener(new View.OnClickListener() {
@@ -38,15 +36,6 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentMainToOption = new Intent(MenuActivity.this, InventoryActivity.class);
-                startActivity(intentMainToOption);
-
-            }
-        });
-
-        buttonDemand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentMainToOption = new Intent(MenuActivity.this, DemandActivity.class);
                 startActivity(intentMainToOption);
 
             }

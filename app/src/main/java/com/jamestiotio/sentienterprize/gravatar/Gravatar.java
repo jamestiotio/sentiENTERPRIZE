@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -63,7 +62,7 @@ public final class Gravatar {
 
         // Hexadecimal MD5 hash of the requested user's lowercased email address
         // with all whitespace trimmed
-        String emailHash = new String(Hex.encodeHex(DigestUtils.md5(email.toLowerCase().trim())));
+        String emailHash = DigestUtils.md5Hex(email.toLowerCase().trim());
         String params = formatUrlParameters();
         return GRAVATAR_URL + emailHash + ".jpg" + params;
     }
