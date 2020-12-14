@@ -1,5 +1,6 @@
 package com.jamestiotio.sentienterprize.POS;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -7,12 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.jamestiotio.sentienterprize.POSActivity;
 import com.jamestiotio.sentienterprize.R;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,9 +70,11 @@ public class NewTransaction extends AppCompatActivity implements AdapterView.OnI
                 if (newItemList.size() != 0){
                     newTrans.setItemList(newItemList);
                     newTrans.setTransTotal(calculateTransTotal(newItemList));
-
                     // update database
                     dbUpdate(newTrans);
+
+                    Intent intent = new Intent(NewTransaction.this, POSActivity.class);
+                    startActivity(intent);
 
                 }else{
                     Toast.makeText(getBaseContext(), "Nothing to add!", Toast.LENGTH_SHORT).show();
