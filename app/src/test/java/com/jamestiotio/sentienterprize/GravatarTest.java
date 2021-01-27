@@ -27,7 +27,7 @@ public class GravatarTest {
     @Test
     public void checkNumOfDefaultImageEnums() {
         int numOfEnums = GravatarDefaultImage.values().length;
-        int result = 5;
+        int result = 8;
 
         assertEquals(numOfEnums, result);
     }
@@ -39,6 +39,9 @@ public class GravatarTest {
         assertEquals("monsterid", GravatarDefaultImage.MONSTERID.getCode());
         assertEquals("wavatar", GravatarDefaultImage.WAVATAR.getCode());
         assertEquals("404", GravatarDefaultImage.HTTP_404.getCode());
+        assertEquals("mm", GravatarDefaultImage.MYSTERY_MAN.getCode());
+        assertEquals("retro", GravatarDefaultImage.RETRO.getCode());
+        assertEquals("blank", GravatarDefaultImage.BLANK.getCode());
     }
 
     @Test
@@ -47,6 +50,12 @@ public class GravatarTest {
         String result = "https://s.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0.jpg";
 
         assertEquals(result, url);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void checkURLWithCustomInvalidEmail() {
+        Gravatar gravatar = new Gravatar();
+        String result = gravatar.getUrl(null);
     }
 
     @Test
@@ -62,7 +71,7 @@ public class GravatarTest {
     @Test(expected = IllegalArgumentException.class)
     public void checkURLWithCustomInvalidLargeSize() {
         Gravatar gravatar = new Gravatar();
-        gravatar.setSize(1024);
+        gravatar.setSize(4096);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -113,5 +122,24 @@ public class GravatarTest {
         String result = "https://s.gravatar.com/avatar/55502f40dc8b7c769880b10874abc9d0.jpg?s=80&r=pg&d=monsterid";
 
         assertEquals(result, url);
+    }
+
+    @Test
+    public void checkDownload() {
+        Gravatar gravatar = new Gravatar();
+        byte[] bytes = gravatar.download("test@example.com");
+        assertTrue("Content is present.", bytes.length > 100);
+
+        gravatar.setDefaultImage(GravatarDefaultImage.IDENTICON);
+        bytes = gravatar.download("test@example.com");
+        assertTrue("Content is present.", bytes.length > 100);
+
+        gravatar.setRating(GravatarRating.GENERAL_AUDIENCES);
+        bytes = gravatar.download("test@example.com");
+        assertTrue("Content is present.", bytes.length > 100);
+
+        gravatar.setSize(2048);
+        bytes = gravatar.download("test@example.com");
+        assertTrue("Content is present.", bytes.length > 100);
     }
 }

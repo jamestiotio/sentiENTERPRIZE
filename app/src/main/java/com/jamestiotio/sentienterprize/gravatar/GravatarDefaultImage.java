@@ -9,9 +9,15 @@ public enum GravatarDefaultImage {
 
     WAVATAR("wavatar"),
 
-    HTTP_404("404");
+    HTTP_404("404"),
+    
+    MYSTERY_MAN("mm"),
+    
+    RETRO("retro"),
+    
+    BLANK("blank");
 
-    private String code;
+    private final String code;
 
     private GravatarDefaultImage(String code) {
         this.code = code;

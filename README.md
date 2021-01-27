@@ -3,7 +3,7 @@ An Enterprize of Sentient Enterprise
 
 SUTD 2020 ISTD Term 4 50.001 Introduction to Information Systems & Programming 1D Project.
 
-![COVERAGE: 11%](https://img.shields.io/badge/coverage-11%25-red?style=for-the-badge)
+![COVERAGE: 12%](https://img.shields.io/badge/coverage-12%25-red?style=for-the-badge)
 
 Group 3-1 Team Members:
 
