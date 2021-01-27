@@ -34,11 +34,11 @@ public final class Gravatar {
 
     /**
      * Specify a gravatar size between 1 and 2048 pixels. If you omit this, a
-     * default size of 80 pixels is used.
+     * default size of 40 pixels is used.
      */
     public void setSize(int sizeInPixels) {
         Validate.isTrue(sizeInPixels >= 1 && sizeInPixels <= 2048,
-                "sizeInPixels needs to be between 1 and 2048");
+                "sizeInPixels needs to be between 1 and 2048 inclusive");
         this.size = sizeInPixels;
     }
 
